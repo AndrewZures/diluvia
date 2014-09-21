@@ -5,10 +5,11 @@ defmodule UserRouterTest do
 
   @opts Router.init([])
 
-  test "route forwarding" do
+  test "gets user" do
     conn = Router.call(conn(:get, "/user"), @opts)
 
-    assert conn.resp_body == "user"
+    result = Poison.Parser.parse(conn.resp_body, keys: :atoms!)
+    assert %{hi: "hello"} == elem(result,1)
     assert conn.status == 200
   end
 

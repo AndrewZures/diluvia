@@ -6,7 +6,9 @@ defmodule Diluvia.UserRouter do
   plug :dispatch
 
   get "/" do
-    send_resp(conn, 200, "user")
+    # body = Poison.Encoder.encode(%{hi: "hello"}, [])
+    body = Poison.Encoder.encode(%{hi: "hello"}, [])
+    send_resp(conn, 200, body)
   end
 
   match _ do
