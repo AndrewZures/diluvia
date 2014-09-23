@@ -8,12 +8,11 @@ defmodule Diluvia.Router do
   forward "/user", to: Diluvia.UserRouter
 
   get "/" do
-    # send_resp(conn, 200, "world")
     conn |> resp(200, "world")
   end
 
   match _ do
-    send_resp(conn, 404, "oops")
+    conn |> resp(404, "oops")
   end
 
 end

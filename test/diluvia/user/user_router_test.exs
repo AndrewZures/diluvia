@@ -8,19 +8,15 @@ defmodule UserRouterTest do
   test "gets user" do
     conn = Router.call(conn(:get, "/user"), @opts)
 
-    result = to_json(conn)
+    body = JSON.from_json(conn.resp_body)
     assert conn.status == 200
-    assert %{hi: "hello"} == elem(result,1)
+    assert %{hi: "hello"} == elem(body, 1)
   end
 
   test "puts user" do
     conn = Router.call(conn(:put, "/user"), @opts)
-    result = to_json(conn)
+    result = JSON.from_json(conn.resp_body)
     assert conn.status == 200
-  end
-
-  def to_json (conn) do
-    Poison.Parser.parse(conn.resp_body, keys: :atoms!)
   end
 
 

@@ -6,13 +6,11 @@ defmodule Diluvia.UserRouter do
   plug :dispatch
 
   get "/" do
-    body = Poison.Encoder.encode(%{hi: "hello"}, [])
-    send_resp(conn, 200, body)
+    send_resp(conn, 200, JSON.to_json(%{hi: "hello"}))
   end
 
   put "/" do
-    body = Poison.Encoder.encode(%{hi: "hello"}, [])
-    send_resp(conn, 200, body)
+    send_resp(conn, 200, JSON.to_json(%{hi: "hello"}))
   end
 
   match _ do
