@@ -7,18 +7,18 @@ defmodule UserRouterTest do
 
   test "gets user" do
     conn = Router.call(conn(:get, "/user"), @opts)
+    body = conn.resp_body |> JSON.from_json |> elem(1)
 
-    body = JSON.from_json(conn.resp_body)
     assert conn.status == 200
-    assert %{hi: "hello"} == elem(body, 1)
+    assert %{hi: "hello"} == body
   end
 
   test "puts user" do
-    conn = Router.call(conn(:put, "/user"), @opts)
-    result = JSON.from_json(conn.resp_body)
+    conn = conn(:put, "/user") |> Router.call(@opts)
+    body = conn.resp_body |> JSON.from_json |> elem(1)
+
     assert conn.status == 200
+    assert body == %{hi: "hello"}
   end
-
-
 
 end
