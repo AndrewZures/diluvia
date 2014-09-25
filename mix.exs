@@ -9,14 +9,14 @@ defmodule Diluvia.Mixfile do
   end
 
   def application do
-    [applications: [:logger, :cowboy, :plug, :ecto, :postgrex]]
+    [applications: [:postgrex, :logger, :cowboy, :plug, :ecto]]
   end
 
   defp deps do
-    [{:cowboy, "~> 1.0.0"},
+    [{:postgrex, "~> 0.5"},
+     {:cowboy, "~> 1.0.0"},
      {:plug, "~> 0.7.0"},
      {:poison, "~> 1.2.0"},
-     {:ecto, "~> 0.2.5"},
-     {:postgrex, ">= 0.0.0"}]
+     {:ecto, "~> 0.2.0"} ]
   end
 end
