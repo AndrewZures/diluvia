@@ -9,7 +9,8 @@ defmodule Diluvia.Mixfile do
   end
 
   def application do
-    [applications: [:postgrex, :logger, :cowboy, :plug, :ecto]]
+    [mod: {Diluvia.App, []},
+     applications: [:postgrex, :logger, :cowboy, :plug, :ecto]]
   end
 
   defp deps do

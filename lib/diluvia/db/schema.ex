@@ -1,4 +1,8 @@
-defmodule Diluvia.DB.Schema do
+defmodule Users do
   use Ecto.Model.Schema
+
+  schema "users" do
+    field :name, :string
+  end
 
 end
