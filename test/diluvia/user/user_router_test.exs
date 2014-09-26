@@ -6,11 +6,12 @@ defmodule UserRouterTest do
   @opts Router.init([])
 
   test "gets user" do
-    conn = Router.call(conn(:get, "/user"), @opts)
+    num = 1
+    conn = Router.call(conn(:get, "/user/#{num}"), @opts)
     body = conn.resp_body |> JSON.from_json |> elem(1)
 
     assert conn.status == 200
-    assert %{hi: "hello"} == body
+    assert %{hi: "hello #{num}"} == body
   end
 
   test "puts user" do

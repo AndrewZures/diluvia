@@ -5,8 +5,8 @@ defmodule Diluvia.UserRouter do
   plug :match
   plug :dispatch
 
-  get "/" do
-    send_resp(conn, 200, JSON.to_json(%{hi: "hello"}))
+  get "/:id" do
+    send_resp(conn, 200, JSON.to_json(%{hi: "hello #{id}"}))
   end
 
   put "/" do
