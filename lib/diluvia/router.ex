@@ -5,7 +5,7 @@ defmodule Diluvia.Router do
   plug :match
   plug :dispatch
 
-  forward "/user", to: Diluvia.UserRouter
+  forward "/user", to: Diluvia.User.Router
 
   get "/" do
     conn |> resp(200, "world")

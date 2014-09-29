@@ -1,4 +1,4 @@
-defmodule Diluvia.UserRouter do
+defmodule Diluvia.User.Router do
   import Plug.Conn
   use Plug.Router
 
@@ -6,8 +6,13 @@ defmodule Diluvia.UserRouter do
   plug :dispatch
 
   get "/:id" do
-    send_resp(conn, 200, JSON.to_json(%{hi: "hello #{id}"}))
+    send_resp(conn, 200, JSON.to_json(get_handler(id)))
   end
+
+  def get_handler(id) do
+    %{hi: "hello #{id}"}
+  end
+
 
   put "/" do
     send_resp(conn, 200, JSON.to_json(%{hi: "hello"}))

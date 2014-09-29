@@ -1,6 +1,6 @@
 defmodule Diluvia.BlahTest do
   use ExUnit.Case, async: true
-  import Diluvia.DB.Queries
+  import Diluvia.User.Queries
   import Diluvia.Util
 
   test 'queries something' do

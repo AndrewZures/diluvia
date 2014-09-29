@@ -1,4 +1,4 @@
-defmodule Users do
+defmodule Diluvia.DB.Users do
   use Ecto.Model.Schema
 
   schema "users" do

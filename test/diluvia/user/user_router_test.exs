@@ -1,4 +1,4 @@
-defmodule UserRouterTest do
+defmodule Diluvia.User.RouterTest do
   use ExUnit.Case, async: true
   alias Diluvia.Router, as: Router
   use Plug.Test
