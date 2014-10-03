@@ -3,8 +3,10 @@ defmodule Diluvia.BlahTest do
   alias Diluvia.Util.Query, as: Util
   import Mock
 
+  data = [ %{ name: "danny" } ]
+
   test_with_mock 'queries something',
-    Util, [run: fn(_) -> [%{ name: "jimmy" }] end] do
+    Util, [run: fn(_) -> data end] do
     query = Diluvia.User.Queries.find(1)
     user = query |> hd
 
