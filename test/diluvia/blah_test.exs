@@ -1,10 +1,11 @@
 defmodule Diluvia.BlahTest do
   use ExUnit.Case, async: true
-  import Diluvia.User.Queries
-  import Diluvia.Util
 
   test 'queries something' do
-    assert sample_query |> hd |> Map.get(:name) == "jimmy"
+    query = Diluvia.User.Queries.find(1)
+    user = query |> hd
+
+    assert user |> Map.get(:name) == "jimmy"
   end
 
   test 'function' do

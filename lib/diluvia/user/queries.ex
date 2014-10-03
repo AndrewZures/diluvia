@@ -1,9 +1,14 @@
 defmodule Diluvia.User.Queries do
   import Ecto.Query
+  alias Diluvia.DB.Users, as: Users
+  alias Diluvia.Util.Query, as: QueryUtil
 
-  def sample_query do
-    query = from u in Diluvia.DB.Users, select: u
-    Diluvia.DB.Repo.all(query) |> Enum.map(&(Map.from_struct(&1)))
+  def find(id) do
+    query = from u in Users,
+                      select: u,
+                      where: u.id == ^id
+
+    QueryUtil.run(query)
   end
 
 end
