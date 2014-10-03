@@ -10,7 +10,11 @@ defmodule Diluvia.Mixfile do
 
   def application do
     [mod: {Diluvia.App, []},
-     applications: [:postgrex, :logger, :cowboy, :plug, :ecto]]
+     applications: [:postgrex,
+                    :logger,
+                    :cowboy,
+                    :plug,
+                    :ecto]]
   end
 
   defp deps do
@@ -18,6 +22,7 @@ defmodule Diluvia.Mixfile do
      {:cowboy, "~> 1.0.0"},
      {:plug, "~> 0.7.0"},
      {:poison, "~> 1.2.0"},
-     {:ecto, "~> 0.2.0"} ]
+     {:ecto, "~> 0.2.0"},
+     {:mock, git: "git://github.com/jjh42/mock.git"} ]
   end
 end

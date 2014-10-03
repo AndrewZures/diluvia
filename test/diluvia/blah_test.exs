@@ -1,7 +1,10 @@
 defmodule Diluvia.BlahTest do
-  use ExUnit.Case, async: true
+  use ExUnit.Case, async: false
+  alias Diluvia.Util.Query, as: Util
+  import Mock
 
-  test 'queries something' do
+  test_with_mock 'queries something',
+    Util, [run: fn(_) -> [%{ name: "jimmy" }] end] do
     query = Diluvia.User.Queries.find(1)
     user = query |> hd
 
