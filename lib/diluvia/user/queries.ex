@@ -13,13 +13,18 @@ defmodule Diluvia.User.Query do
     Diluvia.DB.Repo.all(query)
   end
 
+  def find(id) do
+    Repo.get(Users, id)
+  end
+
   def delete(id) do
     user = Repo.get(Users, id)
     if user, do: user |> Repo.delete
   end
 
   def create(attrs) do
-    %Users{} |> Map.merge(attrs) |> Repo.insert
+    user = %Users{} |> Map.merge(attrs) |> Repo.insert
+    if user, do: Repo.get(Users, user.id)
   end
 
   def update(id, attrs) do
