@@ -1,17 +1,7 @@
-defmodule Diluvia.User.Query do
+defmodule Diluvia.User.Model do
+
   alias Diluvia.DB.Repo, as: Repo
-  import Ecto.Query
-
   alias Diluvia.DB.Users, as: Users
-  alias Diluvia.Util.Query, as: QueryUtil
-
-  def find(id) do
-    query = from u in Users,
-                      select: u,
-                      where: u.id == ^id
-
-    Diluvia.DB.Repo.all(query)
-  end
 
   def find(id) do
     Repo.get(Users, id)
