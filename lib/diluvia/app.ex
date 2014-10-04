@@ -8,5 +8,16 @@ defmodule Diluvia.App do
     Supervisor.start_link(tree, opts)
   end
 
+  # def character do
+  #   character
+  #   |> race_data
+  #   |> class
+  #   |> background
+  #   |> armor
+  #   |> weapon
+  #   |> effect_mods
+  #   |> DM_mods
+  # end
+
 
 end

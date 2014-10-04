@@ -1,5 +1,5 @@
 defmodule Diluvia.DB.Users do
-  use Ecto.Model.Schema
+  use Ecto.Model
 
   schema "users" do
     field :name, :string
