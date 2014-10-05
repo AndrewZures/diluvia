@@ -19,7 +19,8 @@ defmodule Diluvia.User.Router do
     end
   end
 
-  put "/" do
+  put "/:id" do
+    body = read_body(conn) |> elem(1)
     send_resp(conn, 200, JSON.to_json(%{hi: "hello"}))
   end
 

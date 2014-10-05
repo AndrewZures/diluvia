@@ -35,8 +35,9 @@ defmodule Diluvia.User.RouterTest do
   end
 
   # test "puts user" do
-  #   conn = conn(:put, "/user") |> Router.call(@opts)
-  #   body = conn.resp_body |> JSON.from_json |> elem(1)
+  #   conn = conn(:put, "/user/1", ~s({hi: "hello"}), headers: [{"content-type", "application/json"}])
+  #   conn = conn |> Router.call(@opts)
+  #   body = conn |> read_body |> elem(1) |> JSON.from_json
   #
   #   assert conn.status == 200
   #   assert body == %{hi: "hello"}
