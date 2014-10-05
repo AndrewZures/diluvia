@@ -9,13 +9,15 @@ defmodule Diluvia.User.Router do
   plug :dispatch
 
   get "/:id" do
-    send_resp(conn, 200, get_handler(id))
-  end
+    user = id |> String.to_integer |> Model.find
 
-  def get_handler(id) do
-    Model.find(id) |> Map.from_struct |> JSON.to_json
+    if user != nil do
+      body = user |> Map.from_struct |> JSON.to_json
+      send_resp(conn, 200, body)
+    else
+      send_resp(conn, 422, "ruh roh")
+    end
   end
-
 
   put "/" do
     send_resp(conn, 200, JSON.to_json(%{hi: "hello"}))
