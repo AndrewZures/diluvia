@@ -22,7 +22,7 @@ defmodule Diluvia.User.RouterTest do
     user = context[:user]
 
     conn = Router.call(conn(:get, "/user/#{user.id}"), @opts)
-    body = conn.resp_body |> JSON.from_json |> elem(1)
+    body = conn.resp_body |> JSON.from_json
 
     assert conn.status == 200
     assert Map.from_struct(user) == body
@@ -34,13 +34,18 @@ defmodule Diluvia.User.RouterTest do
     assert conn.status == 422
   end
 
-  # test "puts user" do
-  #   conn = conn(:put, "/user/1", ~s({hi: "hello"}), headers: [{"content-type", "application/json"}])
-  #   conn = conn |> Router.call(@opts)
-  #   body = conn |> read_body |> elem(1) |> JSON.from_json
-  #
-  #   assert conn.status == 200
-  #   assert body == %{hi: "hello"}
-  # end
+  test "puts user" do
+    data = Poison.encode!(%{hi: "hello"})
+    conn = conn(:put,
+                "/user/1",
+                <<"#{data}">>,
+                headers: [{"content-type", "application/json"}])
+    conn = conn |> Router.call(@opts)
+    body = conn.resp_body
+    body = Poison.decode!(body, keys: :atoms)
+
+    assert conn.status == 200
+    assert body == %{hi: "hello"}
+  end
 
 end
