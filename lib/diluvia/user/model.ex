@@ -19,7 +19,16 @@ defmodule Diluvia.User.Model do
 
   def update(id, attrs) do
     user = Repo.get(Users, id)
-    if user, do: user |> Map.merge(attrs) |> Repo.update
+    if user,
+      do: _update(user, attrs),
+      else: {:error, %{message: "user does not exist"}}
+  end
+
+  defp _update(user, attrs) do
+    user |> Map.merge(attrs) |> Repo.update
+    if user,
+      do: { :ok, Repo.get(Users, user.id) },
+      else: { :error, %{message: "could not update user"} }
   end
 
 end

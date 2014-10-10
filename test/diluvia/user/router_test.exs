@@ -34,19 +34,29 @@ defmodule Diluvia.User.RouterTest do
     assert conn.status == 422
   end
 
-  # test "puts user", context do
-  #   user = context[:user]
-  #   data = Poison.encode!(%{name: "Andrew"})
-  #   conn = conn(:put,
-  #               "/user/#{user.id}",
-  #               <<"#{data}">>,
-  #               headers: [{"content-type", "application/json"}])
-  #
-  #   conn = conn |> Router.call(@opts)
-  #   body = conn.resp_body |> Poison.decode!(keys: :atoms)
-  #
-  #   assert conn.status == 200
-  #   assert body.name == user.name
-  # end
+  test "puts user", context do
+    user = context[:user]
+    data = Poison.encode!(%{name: "Andrew"})
+    conn = conn(:put, "/user/#{user.id}", <<"#{data}">>,
+                headers: [{"content-type", "application/json"}])
+
+    conn = conn |> Router.call(@opts)
+    body = conn.resp_body |> Poison.decode!(keys: :atoms)
+
+    assert conn.status == 200
+    assert body.name == user.name
+  end
+
+  test "returns error if update fails" do
+    data = Poison.encode!(%{name: "Dave"})
+    conn = conn(:put, "/user/-1", <<"#{data}">>,
+                headers: [{"content-type", "application/json"}])
+
+    conn = conn |> Router.call(@opts)
+    body = conn.resp_body |> Poison.decode!(keys: :atoms)
+
+    assert conn.status == 422
+    assert body.message != nil
+  end
 
 end
