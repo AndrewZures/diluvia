@@ -8,13 +8,13 @@ defmodule Diluvia.User.Router do
   plug :dispatch
 
   get "/:id" do
-    user = id |> String.to_integer |> Model.find
+    { status, user_data } = id |> String.to_integer |> Model.find
 
-    if user != nil do
-      body = user |> Map.from_struct |> JSON.to_json
+    if status == :ok do
+      body = user_data |> Map.from_struct |> JSON.to_json
       send_resp(conn, 200, body)
     else
-      send_resp(conn, 422, "ruh roh")
+      send_resp(conn, 422, user_data)
     end
   end
 

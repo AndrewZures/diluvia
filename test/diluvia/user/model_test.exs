@@ -5,7 +5,7 @@ defmodule Diluvia.User.QueryTest do
 
   setup do
     attrs = %{name: "David"}
-    user =  Model.create(attrs)
+    { _, user } =  Model.create(attrs)
 
     on_exit fn ->
       Model.delete(user.id)
@@ -16,53 +16,61 @@ defmodule Diluvia.User.QueryTest do
 
   test 'finds a user', context do
     user = context[:user]
-    result = Model.find(user.id)
+    { status, result } = Model.find(user.id)
 
+    assert status == :ok
     assert result.name == user.name
   end
 
-  test "returns nil if can't find user" do
-    result = Model.find(-1)
+  test "returns an error if can't find user" do
+    { status, result } = Model.find(-1)
 
-    assert result == nil
+    assert status == :error
+    assert result != nil
   end
 
   test "update a user", context do
     user = context[:user]
-    Model.update(user.id, %{name: "Sheila"})
-    result = Model.find(user.id)
+    { _, updated_user } = Model.update(user.id, %{name: "Sheila"})
 
-    assert result.name == "Sheila"
+    assert updated_user.name == "Sheila"
+  end
+
+  test "returns error if could not update user" do
+    { status, _ } = Model.update(0, %{name: "Sheila"})
+
+    assert status == :error
   end
 
   test 'creates a user' do
-    result = Model.create(%{name: "David"})
+    { status, result } = Model.create(%{name: "David"})
 
+    assert status == :ok
     assert result.name == "David"
   end
 
   test 'does not add unwanted columns to user' do
     attrs = %{wrong: "wrong-value"}
-    result = Model.create(attrs)
+    { status, result } = Model.create(attrs)
 
+    assert status == :ok
     assert result.name == nil
   end
 
   test 'returns ok for successful delete', context do
     user = context[:user]
-    assert user != nil
 
-    result = Model.delete(user.id)
-    user = Model.find(user.id)
+    { delete_status, _ } = Model.delete(user.id)
+    { find_status, _ } = Model.find(user.id)
 
-    assert result == :ok
-    assert user == nil
+    assert delete_status == :ok
+    assert find_status == :error
   end
 
   test 'returns nil for unsuccessful delete' do
-    result = Model.delete(-1)
+    { status, _ } = Model.delete(-1)
 
-    assert result == nil
+    assert status == :error
   end
 
 end
