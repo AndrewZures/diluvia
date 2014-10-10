@@ -2,9 +2,7 @@ defmodule Diluvia.User.Router do
   import Plug.Conn
   use Plug.Router
 
-  alias Diluvia.DB.Users, as: Users
   alias Diluvia.User.Model, as: Model
-  alias Diluvia.Util.Query, as: Util
 
   plug :match
   plug :dispatch
@@ -21,9 +19,15 @@ defmodule Diluvia.User.Router do
   end
 
   put "/:id" do
-    body = read_body(conn) |> elem(1)
-    body = Poison.decode!(body)
-    body = Poison.encode!(body)
+    body = read_body(conn) |> elem(1) |> JSON.from_json
+    id = id |> String.to_integer
+    body = Model.update(id, body)
+    if body == nil do
+      body = %{id: nil, name: nil}
+    end
+
+    body = body |> JSON.to_json
+
     send_resp(conn, 200, body)
   end
 

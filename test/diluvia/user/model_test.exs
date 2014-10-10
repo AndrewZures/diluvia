@@ -1,63 +1,68 @@
 defmodule Diluvia.User.QueryTest do
   use ExUnit.Case, async: false
-  import Mock
 
   alias Diluvia.User.Model,   as: Model
-  alias Diluvia.DB.Users,     as: Users
-  alias Diluvia.DB.Repo,      as: Repo
 
-  test_with_mock 'finds a user',
-  Repo, [get: fn(_, _) -> %Users{name: "dave"} end] do
-    result = Model.find(123)
+  setup do
+    attrs = %{name: "David"}
+    user =  Model.create(attrs)
 
-    assert result.name == "dave"
+    on_exit fn ->
+      Model.delete(user.id)
+    end
+
+    { :ok, user: user }
   end
 
-  test_with_mock "returns nil if can't find user",
-  Repo, [get: fn(_, _) -> nil end] do
+  test 'finds a user', context do
+    user = context[:user]
+    result = Model.find(user.id)
+
+    assert result.name == user.name
+  end
+
+  test "returns nil if can't find user" do
     result = Model.find(-1)
 
     assert result == nil
   end
 
-  test_with_mock "update a user",
-  Repo, [update: fn(_) -> %Users{name: "sheila"} end,
-         get: fn(_, _) -> %Users{} end] do
-    result = Model.update(73, %{})
+  test "update a user", context do
+    user = context[:user]
+    Model.update(user.id, %{name: "Sheila"})
+    result = Model.find(user.id)
 
-    assert result.name == "sheila"
+    assert result.name == "Sheila"
   end
 
-  test_with_mock 'creates a user',
-  Repo, [insert: fn(user) -> user end,
-         get: fn(_, _) -> %Users{ name: "updated" } end] do
-    result = Model.create(%{})
+  test 'creates a user' do
+    result = Model.create(%{name: "David"})
 
-    assert result.name == "updated"
+    assert result.name == "David"
   end
 
-  test_with_mock 'does not add unwanted columns to user',
-  Repo, [insert: fn(user) -> user end,
-         get: fn(_, _) -> %Users{} end] do
+  test 'does not add unwanted columns to user' do
     attrs = %{wrong: "wrong-value"}
     result = Model.create(attrs)
 
     assert result.name == nil
   end
 
-  test_with_mock 'returns ok for successful delete',
-  Repo, [get: fn(_, _) -> :ok end,
-         delete: fn(_) -> :ok end] do
-    hi = Model.delete(23)
+  test 'returns ok for successful delete', context do
+    user = context[:user]
+    assert user != nil
 
-    assert hi == :ok
+    result = Model.delete(user.id)
+    user = Model.find(user.id)
+
+    assert result == :ok
+    assert user == nil
   end
 
-  test_with_mock 'returns nil for unsuccessful delete',
-  Repo, [get: fn(_, _) -> nil end] do
-    hi = Model.delete(23)
+  test 'returns nil for unsuccessful delete' do
+    result = Model.delete(-1)
 
-    assert hi == nil
+    assert result == nil
   end
 
 end
