@@ -9,17 +9,17 @@ defmodule Diluvia.User.RouterTest do
 
   setup do
     attrs = %{name: "Andrew"}
-    { _, user_data } = user = User.create(attrs)
+    { _, user } = User.create(attrs)
 
     on_exit fn ->
-      User.delete(user_data.id)
+      User.delete(user.id)
     end
 
     { :ok, user: user }
   end
 
   test "gets user", context do
-    { _, user } = context[:user]
+    user = context[:user]
 
     conn = Router.call(conn(:get, "/user/#{user.id}"), @opts)
     body = conn.resp_body |> JSON.from_json
@@ -28,35 +28,35 @@ defmodule Diluvia.User.RouterTest do
     assert Map.from_struct(user) == body
   end
 
-  # test "returns error if can't find user" do
-  #   conn = Router.call(conn(:get, "/user/0"), @opts)
-  #
-  #   assert conn.status == 422
-  # end
-  #
-  # test "updates user", context do
-  #   user = context[:user]
-  #   data = Poison.encode!(%{name: "Andrew"})
-  #   conn = conn(:put, "/user/#{user.id}", <<"#{data}">>,
-  #               headers: [{"content-type", "application/json"}])
-  #
-  #   conn = conn |> Router.call(@opts)
-  #   body = conn.resp_body |> Poison.decode!(keys: :atoms)
-  #
-  #   assert conn.status == 200
-  #   assert body.name == user.name
-  # end
-  #
-  # test "returns error if update fails" do
-  #   data = Poison.encode!(%{name: "Dave"})
-  #   conn = conn(:put, "/user/-1", <<"#{data}">>,
-  #               headers: [{"content-type", "application/json"}])
-  #
-  #   conn = conn |> Router.call(@opts)
-  #   body = conn.resp_body |> Poison.decode!(keys: :atoms)
-  #
-  #   assert conn.status == 422
-  #   assert body.message != nil
-  # end
+  test "returns error if can't find user" do
+    conn = Router.call(conn(:get, "/user/0"), @opts)
+
+    assert conn.status == 422
+  end
+
+  test "updates user", context do
+    user = context[:user]
+    data = Poison.encode!(%{name: "Andrew"})
+    conn = conn(:put, "/user/#{user.id}", <<"#{data}">>,
+                headers: [{"content-type", "application/json"}])
+
+    conn = conn |> Router.call(@opts)
+    body = conn.resp_body |> Poison.decode!(keys: :atoms)
+
+    assert conn.status == 200
+    assert body.name == user.name
+  end
+
+  test "returns error if update fails" do
+    data = Poison.encode!(%{name: "Dave"})
+    conn = conn(:put, "/user/-1", <<"#{data}">>,
+                headers: [{"content-type", "application/json"}])
+
+    conn = conn |> Router.call(@opts)
+    body = conn.resp_body |> Poison.decode!(keys: :atoms)
+
+    assert conn.status == 422
+    assert body.message != nil
+  end
 
 end

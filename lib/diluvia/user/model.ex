@@ -5,7 +5,7 @@ defmodule Diluvia.User.Model do
 
   def find(id) do
     user = Repo.get(Users, id)
-    if user, do: {:ok, user}, else: {:error, "could not find user"}
+    if user, do: {:ok, user}, else: {:error, %{message: "could not find user"} }
   end
 
   def delete(id) do
