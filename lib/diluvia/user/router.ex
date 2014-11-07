@@ -7,10 +7,13 @@ defmodule Diluvia.User.Router do
   plug :match
   plug :dispatch
 
+
   get "/:id" do
     { status, user_data } = id |> String.to_integer |> Model.find
 
     body = user_data |> JSON.to_json
+    IO.puts 'here'
+    conn = decorate_response(conn)
     send_resp(conn, http_status(status), body)
   end
 
@@ -26,6 +29,12 @@ defmodule Diluvia.User.Router do
   match _ do
     no_match = %{ message: "no matching route" } |> JSON.to_json
     send_resp(conn, 404, no_match)
+  end
+
+
+  def decorate_response(conn) do
+    conn = put_resp_header(conn, "access-control-allow-origin", "*")
+    conn
   end
 
   def http_status(status) do
