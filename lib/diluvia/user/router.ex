@@ -13,6 +13,7 @@ defmodule Diluvia.User.Router do
 
     body = user_data |> JSON.to_json
     IO.puts 'here'
+    IO.puts conn.method
     conn = decorate_response(conn)
     send_resp(conn, http_status(status), body)
   end
@@ -26,7 +27,16 @@ defmodule Diluvia.User.Router do
     send_resp(conn, http_status(status), body)
   end
 
+  options "/:id" do
+    IO.puts "options route"
+    IO.puts conn.method
+    conn = decorate_response(conn)
+    send_resp(conn, 200, "cool beans")
+  end
+
   match _ do
+    IO.puts 'WHOA'
+    IO.puts conn.method
     no_match = %{ message: "no matching route" } |> JSON.to_json
     send_resp(conn, 404, no_match)
   end
@@ -34,6 +44,7 @@ defmodule Diluvia.User.Router do
 
   def decorate_response(conn) do
     conn = put_resp_header(conn, "access-control-allow-origin", "*")
+    conn = put_resp_header(conn, "content-type", "application/json")
     conn
   end
 

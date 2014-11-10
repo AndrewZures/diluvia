@@ -8,10 +8,13 @@ defmodule Diluvia.Router do
   forward "/user", to: Diluvia.User.Router
 
   get "/" do
+    IO.puts conn.method
     conn |> resp(200, "world")
   end
 
   match _ do
+    IO.puts 'WHOA'
+    IO.puts conn.method
     conn |> resp(404, "oops")
   end
 
