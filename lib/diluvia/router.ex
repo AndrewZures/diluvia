@@ -1,20 +1,18 @@
 defmodule Diluvia.Router do
   import Plug.Conn
+  alias ResponseWrapper, as: Router
   use Plug.Router
 
   plug :match
   plug :dispatch
 
-  forward "/user", to: Diluvia.User.Router
-
-  get "/" do
-    IO.puts conn.method
-    conn |> resp(200, "world")
+  options _ do
+    Router.basic_wrap_and_send(conn, 200, "cool beans")
   end
 
+  forward "/user", to: Diluvia.User.Router
+
   match _ do
-    IO.puts 'WHOA'
-    IO.puts conn.method
     conn |> resp(404, "oops")
   end
 

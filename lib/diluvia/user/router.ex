@@ -12,8 +12,6 @@ defmodule Diluvia.User.Router do
     { status, user_data } = id |> String.to_integer |> Model.find
 
     body = user_data |> JSON.to_json
-    IO.puts 'here'
-    IO.puts conn.method
     conn = decorate_response(conn)
     send_resp(conn, http_status(status), body)
   end
@@ -25,13 +23,6 @@ defmodule Diluvia.User.Router do
     { status, body } = Model.update(id, body)
     body = body |> JSON.to_json
     send_resp(conn, http_status(status), body)
-  end
-
-  options "/:id" do
-    IO.puts "options route"
-    IO.puts conn.method
-    conn = decorate_response(conn)
-    send_resp(conn, 200, "cool beans")
   end
 
   match _ do

@@ -5,12 +5,23 @@ defmodule Diluvia.RouterTest do
 
   @opts Router.init([])
 
-  test "connection" do
-    conn = conn(:get, "/")
+  test "handles options method" do
+    conn = conn(:options, "/")
     conn = Router.call(conn, @opts)
 
     assert conn.status == 200
-    assert conn.resp_body == "world"
+    assert conn.resp_body == "cool beans"
   end
+
+  test "handles options method for any route" do
+    conn = conn(:options, "user/1")
+    conn = Router.call(conn, @opts)
+
+    assert conn.status == 200
+    assert conn.resp_body == "cool beans"
+  end
+
+
+
 
 end
