@@ -21,7 +21,4 @@ defmodule Diluvia.RouterTest do
     assert conn.resp_body == "cool beans"
   end
 
-
-
-
 end

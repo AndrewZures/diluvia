@@ -14,6 +14,4 @@ defmodule ResponseWrapper do
     |> put_resp_header("content-type", "application/json")
   end
 
-
-
 end
