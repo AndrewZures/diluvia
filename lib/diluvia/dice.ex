@@ -17,31 +17,18 @@ defmodule Diluvia.Dice do
   end
 
   def generate_stuff(poss_per_dice) do
-    indexed = Enum.with_index(poss_per_dice)
-    all_but_last = Enum.take(indexed, length(indexed) - 1)
-    hi = Enum.map(all_but_last, fn(list) -> add_lists(list, indexed) end)
-    Enum.sort(List.flatten(hi))
+    calculate(poss_per_dice, [])
+    |> List.flatten
+    |> Enum.sort
   end
 
-  def add_lists(list, original) do
-    result = Enum.map(original, fn(org) -> something(org, list) end)
-    Enum.filter(result, fn(e) -> e != nil end)
+  def calculate([head | []], state) do
+    state_sum = Enum.reduce(state, 0, fn(x, acc) -> x + acc end)
+    Enum.map(head, fn(el) -> state_sum + el end)
   end
 
-  def something({a_list, a_idx}, {b_list, b_idx}) do
-    if a_idx != b_idx do
-      if a_list > b_list do
-        Enum.map(a_list, fn(a) -> Enum.map(b_list, fn(b) -> a + b end) end)
-      else
-        Enum.map(b_list, fn(b) -> Enum.map(a_list, fn(a) -> a + b end) end)
-      end
-    end
-  end
-
-  def blah(dice) do
-    # dup = duplicate_many(dice)
-    dup = all_possibilities(dice)
-    generate_stuff(dup)
+  def calculate([head | tail], state) do
+    Enum.map(head, fn(el) -> calculate(tail, state ++ [el]) end)
   end
 
 end
