@@ -9,7 +9,9 @@ defmodule Diluvia.Dice do
 
   def roll(dice) do
     :random.seed(:os.timestamp)
-    possibilities(dice) |> all_options |> Enum.count |> :random.uniform
+    options = possibilities(dice) |> all_options
+    rand_choice = options |> Enum.count |> :random.uniform
+    Enum.at(options, (rand_choice - 1))
   end
 
   def possibilities(dice) when is_list(dice) do
