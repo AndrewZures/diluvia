@@ -4,17 +4,17 @@ defmodule Diluvia.DiceTest do
   alias Diluvia.Test.DiceUtil, as: DiceUtil
 
   test "generates all possibilities for six-sided die" do
-    outcomes = DiceUtil.all_possibilities([6])
+    outcomes = Dice.possibilities([6])
     assert outcomes == [[1,2,3,4,5,6]]
   end
 
   test "generates all possibilities for two six-sided die" do
-    outcomes = DiceUtil.all_possibilities([6, 6])
+    outcomes = Dice.possibilities([6, 6])
     assert outcomes == [[1,2,3,4,5,6], [1,2,3,4,5,6]]
   end
 
   test "generates all possibilities for a d6 and d8" do
-    outcomes = DiceUtil.all_possibilities([6, 8])
+    outcomes = Dice.possibilities([6, 8])
     assert outcomes == [[1,2,3,4,5,6], [1,2,3,4,5,6,7,8]]
   end
 
