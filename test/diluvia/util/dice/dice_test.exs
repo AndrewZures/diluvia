@@ -1,4 +1,4 @@
-defmodule Diluvia.DiceTest do
+defmodule Diluvia.Test.DiceTest do
   use ExUnit.Case, async: true
   alias Diluvia.Dice, as: Dice
   alias Diluvia.Test.DiceUtil, as: DiceUtil
@@ -55,10 +55,5 @@ defmodule Diluvia.DiceTest do
     assert  Dice.all_options(dice) == expected
   end
 
-  test "rolls a random number" do
-    uniq_rolls = Enum.map(1..100, fn(_) -> Dice.roll([2]) end)
-                 |> Enum.uniq |> Enum.sort
-    assert uniq_rolls == [1,2]
-  end
 
 end

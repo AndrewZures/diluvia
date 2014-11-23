@@ -17,3 +17,7 @@ MIX_ENV=test mix exto.migrate Diluvia.DB.Repo
 MIX_ENV=dev mix ecto.rollback Diluvia.DB.Repo
 MIX_ENV=test mix ecto.rollback Diluvia.DB.Repo
   * add the '--all' flag to execute all migrations
+
+### Tests
+run `mix test` to run all tests
+run `mix test --exclude random` to run all tests except those with a random component
