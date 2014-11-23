@@ -20,4 +20,4 @@ MIX_ENV=test mix ecto.rollback Diluvia.DB.Repo
 
 ### Tests
 run `mix test` to run all tests
-run `mix test --exclude random` to run all tests except those with a random component
+run `mix test --include random` to run tests including those with a random element
