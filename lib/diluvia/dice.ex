@@ -7,6 +7,11 @@ defmodule Diluvia.Dice do
   @d12 [1,2,3,4,5,6,7,8,9,10,11,12]
   @d20 [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]
 
+  def roll(dice) do
+    :random.seed(:os.timestamp)
+    possibilities(dice) |> all_options |> Enum.count |> :random.uniform
+  end
+
   def possibilities(dice) when is_list(dice) do
     Enum.map(dice, fn(die) -> possibilities(die) end)
   end
@@ -14,11 +19,6 @@ defmodule Diluvia.Dice do
   def possibilities(die) do
       match = prematch(die)
       if match, do: match, else: Enum.to_list(1..die)
-  end
-
-  def roll(dice) do
-    :random.seed(:os.timestamp)
-    possibilities(dice) |> all_options |> Enum.count |> :random.uniform
   end
 
   def all_options(options_per_dice) do
