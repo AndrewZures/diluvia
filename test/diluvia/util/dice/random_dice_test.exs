@@ -39,10 +39,13 @@ defmodule Diluvia.Test.RandomDiceTest do
     assert uniq_rolls == Enum.to_list(3..16)
   end
 
+  test "rolls a random number for four d4" do
+    uniq_rolls = uniq_outcomes([4,4,4,4], 300)
+    assert uniq_rolls == Enum.to_list(4..16)
+  end
+
   def uniq_outcomes(dice, n \\ 200) do
-    Enum.map(1..n, fn(_) -> Dice.roll(dice) end)
-    |> Enum.uniq
-    |> Enum.sort
+    Enum.map(1..n, fn(_) -> Dice.roll(dice) end) |> Enum.uniq |> Enum.sort
   end
 
 end
